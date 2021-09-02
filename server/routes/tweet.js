@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { addTweet } from "../controllers/tweet.js";
+import { addTweet, getTweet } from "../controllers/tweet.js";
 
 /*
 router.get("/", userController.findAll);
@@ -13,6 +13,7 @@ router.delete("/:id", userController.delete);
 
 
 router.post("/addTweet",addTweet);
+router.get("/getTweet",getTweet);
 // router.post("/signup",signup);
 
 

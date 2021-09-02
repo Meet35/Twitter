@@ -3,6 +3,7 @@ import { Container } from '@material-ui/core';
 import React from 'react';
 
 import Auth from './components/Auth/Auth';
+import Tweet from './components/Tweet/Tweet';
 
 const App = () => {
 
@@ -10,6 +11,8 @@ const App = () => {
     <HashRouter>
       <Container maxWidth="lg">
       <Route path="/auth" exact component={Auth} />
+      <Route path="/tweet" exact component={Tweet} />
+      
         {/* <Clock />
         <Navbar />
         <Switch>

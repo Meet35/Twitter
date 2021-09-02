@@ -5,6 +5,7 @@ import cors from 'cors';
 const app = express();
 
 import userRouter from "./routes/user.js";
+import tweetRouter from "./routes/tweet.js";
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -13,7 +14,10 @@ app.use(cors());
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 require('dotenv').config();
+    
 app.use("/user",userRouter);
+app.use("/addTweet",tweetRouter);
+
 
 const CONNECTION_URL = process.env.DATABASE_URL;
 const PORT = process.env.PORT || 5000;

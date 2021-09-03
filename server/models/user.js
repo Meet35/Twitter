@@ -19,8 +19,17 @@ const schema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    id :{
+    userid :{
+      unique: true,
       type : String
+    },
+    followers :{
+      type: [String],
+      default: []
+    },
+    following :{
+      type: [String],
+      default: []
     },
 });
 

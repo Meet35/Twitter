@@ -11,7 +11,7 @@ import { AUTH } from '../../actions/types';
 import useStyles from './styles';
 import Input from './Input';
 
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' , userid:''};
 
 const SignUp = () => {
     const [form, setForm] = useState(initialState);
@@ -70,6 +70,8 @@ const SignUp = () => {
                             <>
                                 <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
                                 <Input name="lastName" label="Last Name" handleChange={handleChange} half />
+                                <Input name="userid" label="userid" handleChange={handleChange}/>
+                        
                             </>
                         )}
                         <Input name="email" label="Email Address" handleChange={handleChange} type="email" />

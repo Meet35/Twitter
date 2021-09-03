@@ -5,6 +5,7 @@ import React from 'react';
 import Auth from './components/Auth/Auth';
 import Tweet from './components/Tweet/Tweet';
 import Home from './components/Home/Home';
+import Profile from './components/Profile/Profile';
 
 const App = () => {
 
@@ -14,6 +15,9 @@ const App = () => {
       <Route path="/auth" exact component={Auth} />
       <Route path="/tweet" exact component={Tweet} />
       <Route path="/" exact component={Home} />
+      <Route exact path="/profile/:userid" render={() => (
+              <Profile />
+          )} />
       
         {/* <Clock />
         <Navbar />

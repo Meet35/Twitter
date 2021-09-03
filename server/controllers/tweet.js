@@ -10,7 +10,7 @@ export const addTweet = async (req, res) => {
   try {
     
     // const user=User.findOne({email:req.body.email});
-    const tweet = Tweet.create({email:req.body.email, message:req.body.message});
+    const tweet = Tweet.create({email:req.body.email, message:req.body.message, userid:req.body.userid});
     console.log(tweet);
     res.status(200).json(tweet);
 } catch (err) {

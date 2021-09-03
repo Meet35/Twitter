@@ -26,7 +26,7 @@ export const signin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, confirmPassword, firstName, lastName } = req.body;
+  const { email, password, confirmPassword, firstName, lastName, userid } = req.body;
 
   try {
     const oldUser = await User.findOne({ email });
@@ -41,9 +41,7 @@ export const signup = async (req, res) => {
 
     const isPasswordCorrect = await bcrypt.compare(repassword, hashedPassword);
 
-    const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
-
-    const watchlist = await Watchlist.create({ symbols: [], userid: result._id });
+    const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` ,userid });
 
     const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: "1h" });
 
@@ -53,3 +51,41 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+
+export const updateFollowerList = async (req, res) => {
+
+  const symbol = req.body;
+  // console.log(symbol);
+  //console.log(symbol.symbol);
+  try {
+    // console.log(req.userId);
+      const FollowingList = await User.findOne({ userid: symbol.userId });
+      const WhomToFollow = await User.findOne({userid:symbol.personId});
+      // const index = FollowingList.symbols.findIndex((sym) => sym === String(symbol.symbol));
+    console.log(FollowingList);
+
+      FollowingList.following.push(symbol.personId);
+      WhomToFollow.followers.push(symbol.userId);
+
+      const updatedFollowingList = await User.findByIdAndUpdate(FollowingList._id, FollowingList, { new: true });
+      const updatedWhomToFollow = await User.findByIdAndUpdate(WhomToFollow._id, WhomToFollow, { new: true });
+      //console.log(updateWatchlist);
+      console.log(updateFollowerList);
+      res.status(200).json(updatedFollowingList);
+  } catch (error) {
+      console.log(error);
+  }
+}
+
+export const getUser = async (req, res) => {
+
+  try {
+      const user = await User.findOne({ userid: req.params.userid });
+      // var data = [];
+      //console.log(watchlist);
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(404).json({ message: error.message, why: "why you do this to me?" });
+  }
+}

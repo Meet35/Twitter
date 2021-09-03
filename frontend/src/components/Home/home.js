@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as api from '../../api/index.js';
 import { Button, Typography, Container, Grid } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/NavigateBeforeTwoTone';
@@ -85,10 +86,13 @@ const Home = () => {
     }
 
     return (
+
+        
                 <Container maxWidth="lg">
                     <Button variant="outlined" style={{ width: 120, marginBottom: 12 }} fontSize="medium" color="inherit" startIcon={<ArrowBack style={{ fontSize: 30 }} />} onClick={(e) => handleClick(e)} backgroundcolor="gray">Back</Button>
                     {
                         (tweet.length > 0) ? tweet.map((row, index) =>
+                        <Link to={{ pathname: `/Profile/${row.userid}`, state: { userid: row.userid, email: row.email } }} key={index} style={{ textDecoration: 'none' }} >
                             <Box mb={1} key={index}>
                                 <Card className={classes.root} variant="outlined">
                                     <CardHeader
@@ -134,6 +138,7 @@ const Home = () => {
                                     </CardContent>
                                 </Card>
                             </Box>
+                        </Link>
                         ) : <Grid container spacing={1} direction="row" justify="flex-start" alignItems="flex-start">
 
                             <Grid item xs={12} sm={12} md={12} className={classes.extrapadding}>

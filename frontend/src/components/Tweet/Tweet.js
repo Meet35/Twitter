@@ -119,7 +119,7 @@ const Tweet = () => {
         <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
           
           <hr /><br />
-          Message : <TextField name="message" helperText="should be grater than current Price" onChange={e => { setMessage1(e.target.value);  }} autoFocus required />
+          Message : <TextField name="message" helperText="should be less than 140 chars" onChange={e => { setMessage1(e.target.value);  }} autoFocus required />
           <br /><hr />
           <br />
           <Button variant="contained" type="submit" color="secondary" size="large" style={{ width: 250 }}> Add </Button>

@@ -29,7 +29,6 @@ const Profile = () => {
   const [user,setUser]=useState([])
   const [iserror, setIserror] = useState(false);
   let params = useParams();
-  var chartComponent = useRef(null);
   let history = useHistory();
   const [value, setValue] = React.useState(0);
   const [email, setEmail] = useState("");

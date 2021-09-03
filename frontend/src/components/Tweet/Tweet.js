@@ -21,66 +21,15 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import TextField from '@material-ui/core/TextField';
 require("es6-promise").polyfill();
 require("isomorphic-fetch");
-
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Container>{children}</Container>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-/*
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
-*/
 const Tweet = () => {
 
   const [user, setUser] = useState([])
-//   const [similarstck, setSimilarstck] = useState([]);
-//   const [ohlc, setOhlc] = useState([]);
-//   const [candlepricedata, setCandlepricedata] = useState([]);
-//   const [candlevolumedata, setCandlevolumedata] = useState([]);
-//   const [juststock, setJuststock] = useState([]);
-//   const [volume, setVolume] = useState([]);
-//   const [iserror, setIserror] = useState(false);
   let params = useParams();
   var chartComponent = useRef(null);
   let history = useHistory();
-//   const [value, setValue] = React.useState(0);
-//   const [currentprice, setCurrentprice] = useState(0.00);
   const [message1, setMessage1] = useState("");
-//   const [lowerlimit, setLowerlimit] = useState(0.00);
-//   const [isuppererror, setIsuppererror] = useState(false);
-//   const [islowererror, setIslowererror] = useState(false);
   const [email, setEmail] = useState("");
 
-  /*
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };*/
 
   const useStyles = makeStyles((theme) => ({
     root: {

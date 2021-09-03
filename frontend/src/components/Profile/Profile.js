@@ -27,23 +27,15 @@ const Profile = () => {
   const [email2, setEmail2] = useState()
   const [userIdOfFollower,setUserIdOfFollower] = useState()
   const [user,setUser]=useState([])
-  const [similarstck, setSimilarstck] = useState([]);
-  const [ohlc, setOhlc] = useState([]);
-  const [candlepricedata, setCandlepricedata] = useState([]);
-  const [candlevolumedata, setCandlevolumedata] = useState([]);
-  const [juststock, setJuststock] = useState([]);
-  const [volume, setVolume] = useState([]);
   const [iserror, setIserror] = useState(false);
   let params = useParams();
   var chartComponent = useRef(null);
   let history = useHistory();
   const [value, setValue] = React.useState(0);
-  const [currentprice, setCurrentprice] = useState(0.00);
-  const [upperlimit, setUpperlimit] = useState(0.00);
-  const [lowerlimit, setLowerlimit] = useState(0.00);
-  const [isuppererror, setIsuppererror] = useState(false);
-  const [islowererror, setIslowererror] = useState(false);
   const [email, setEmail] = useState("");
+  const [followingList,setFollowingList]=useState([]);
+  const [curUser,setCurUser]=useState("");
+  const [dble,setDble]=useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -70,6 +62,29 @@ const Profile = () => {
 //         .catch(err => console.log(err));
 // }
 
+//   function checkDisable(s)
+//   {
+//       console.log(s);
+//     if(followingList.includes(s))
+//     {
+//         setDisable(true);
+//     }
+//     else
+//     {
+//         console.log("hi");
+//         setDisable(false);
+//     }
+//   }
+
+//   function getData(s)
+//   {
+//     api.getUser(s)
+//     .then((data) => {
+//         console.log(data.data);
+//         setUser(data.data);
+//     })
+//   }
+
 
   useEffect(() => {
     const s = params.userid;
@@ -80,15 +95,58 @@ const Profile = () => {
         console.log(data.data);
         setUser(data.data);
     })
+    
+
+    
     // var user2=user;
     // setEmail(user2.email);
 
     // var email3=user.email;
     //const n = location.state;
     // var user2= await api.getUser(s);
-    console.log(user);
+    // console.log(user);
     setUserIdOfFollower(JSON.parse(localStorage.getItem('profile')).result.userid);
     setEmail2(s);
+    // console.log(JSON.parse(localStorage.getItem('profile')).result.userid);
+
+    api.getUser(JSON.parse(localStorage.getItem('profile')).result.userid)
+    .then((data)=>{
+        console.log(data.data.following);
+        setCurUser(data.data);
+        setFollowingList(data.data.following);
+        // checkDisable(s);
+        if(data.data.following.includes(params.userid))
+        {
+            setDble(true);
+        }
+        else
+        {
+            console.log("hi");
+            // console.log(params.userid);
+            setDble(false);
+        }
+        
+    })
+
+    // setTimeout(checkDisable(s),500);
+
+
+    // setFollowingList(curUser.following)
+    // .then((data)=>{
+    //     console.log(data);
+    // });
+
+
+    
+    // console.log(followingList);
+    // .then((date)=> {
+
+    // })
+    // api.getFollowingList()
+    // .then((data)=>{
+    //     console.log(data.data);
+    //     setFollowingList(data.data);
+    // })
     // console.log(s);
     // console.log(JSON.parse(localStorage.getItem('profile')).result.userid);
     },[]);
@@ -136,43 +194,21 @@ const Profile = () => {
     history.push('/');
   }
 
-  function gotoStock(item, e) {
-    e.preventDefault();
-    history.push(`/view/${item}`);
-    window.location.reload();
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    confirmAlert({
-      title: 'Confirm to submit',
-      message: 'Are you sure to add triigger',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => {
-            var followData = { userId:user.userid, personId :userIdOfFollower };
-            api.addFollow(followData)
-              .then(data => {
-                console.log(data);
-                // setLowerlimit(0);
-                // setUpperlimit(0);
-                history.push('/');
-              })
-              .catch(err => console.log(err));
-          }
-        },
-        {
-          label: 'No',
-          onClick: () => {
-            // setLowerlimit(0);
-            // setUpperlimit(0);
-          }
-        }
-      ]
-    });
 
-  };
+    var followData = { userId:user.userid, personId :userIdOfFollower };
+    console.log(followingList);
+    api.addFollow(followData)
+    .then(data => {
+    console.log(data);
+    // setLowerlimit(0);
+    // setUpperlimit(0);
+    history.push('/');
+    })
+    .catch(err => console.log(err));
+    }
 
   return (
 
@@ -187,6 +223,7 @@ const Profile = () => {
               {/* {
                   userEmail
               } */}
+              Hi{dble}
             User ID: {user.userid}
                 </Typography>
           <br /><hr />
@@ -194,7 +231,8 @@ const Profile = () => {
             {user.email}
                 </Typography>
           <hr /><br />
-          <Button variant="contained" type="submit" color="secondary" size="large" style={{ width: 250 }}> Follow </Button>
+          {!dble?<Button variant="contained" type="submit" color="secondary" size="large" style={{ width: 250 }}> Follow </Button>:
+          <Button variant="contained" type="submit" color="secondary" size="large" style={{ width: 250 }}> UnFollow </Button>}
         </form>
     </Container>
   );

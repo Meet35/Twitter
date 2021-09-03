@@ -1,7 +1,8 @@
 import express from "express";
 const router = express.Router();
 
-import { signin, signup, updateFollowerList, getUser } from "../controllers/user.js";
+import { signin, signup, updateFollowerList, getUser, getUsers } from "../controllers/user.js";
+// import auth  from "../middleware/auth.js";
 
 /*
 router.get("/", userController.findAll);
@@ -16,6 +17,8 @@ router.post("/signin",signin);
 router.post("/signup",signup);
 router.post("/updateFollowerList",updateFollowerList);
 router.get("/getuser/:userid",getUser);
+router.get("/getusers",getUsers);
 
+// router.get("/getFollowingList",getFollowingList);
 
 export default router;

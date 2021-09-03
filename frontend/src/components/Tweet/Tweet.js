@@ -132,7 +132,7 @@ const Tweet = () => {
     console.log(message1);
     confirmAlert({
       title: 'Confirm to submit',
-      message: 'Are you sure to add triigger',
+      message: 'Are you want to tweet??',
       buttons: [
         {
           label: 'Yes',

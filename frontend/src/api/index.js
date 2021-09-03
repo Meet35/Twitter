@@ -17,6 +17,8 @@ export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
 export const addFollow = (formData) => API.post('/user/updateFollowerList', formData);
 export const getUser = (userid) => API.get(`/user/getUser/${userid}`);
+export const getUsers = () => API.get(`/user/getUsers`);
+// export const getFollowingList = () => API.get(`/user/getFollowingList`);
 
 export const addTweet = (tweet) => API.post(`/addTweet/addTweet`, tweet);
-export const getTweet  = () => API.get(`/addTweet/getTweet`);
+export const getTweet  = (userid) => API.get(`/addTweet/getTweet/${userid}`);

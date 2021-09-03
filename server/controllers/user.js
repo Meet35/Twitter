@@ -60,13 +60,22 @@ export const updateFollowerList = async (req, res) => {
   //console.log(symbol.symbol);
   try {
     // console.log(req.userId);
-      const FollowingList = await User.findOne({ userid: symbol.userId });
-      const WhomToFollow = await User.findOne({userid:symbol.personId});
+    // const list=await User.
+      const FollowingList = await User.findOne({ userid: symbol.personId });
+      const WhomToFollow = await User.findOne({userid:symbol.userId});
       // const index = FollowingList.symbols.findIndex((sym) => sym === String(symbol.symbol));
     console.log(FollowingList);
-
-      FollowingList.following.push(symbol.personId);
-      WhomToFollow.followers.push(symbol.userId);
+      if(FollowingList.following.includes(symbol.userId))
+      {
+        FollowingList.following.remove(symbol.userId);
+        WhomToFollow.followers.remove(symbol.personId);
+      }
+      else
+      {
+        FollowingList.following.push(symbol.userId);
+        WhomToFollow.followers.push(symbol.personId);
+     }
+      
 
       const updatedFollowingList = await User.findByIdAndUpdate(FollowingList._id, FollowingList, { new: true });
       const updatedWhomToFollow = await User.findByIdAndUpdate(WhomToFollow._id, WhomToFollow, { new: true });
@@ -78,10 +87,72 @@ export const updateFollowerList = async (req, res) => {
   }
 }
 
+// export const getFollowingList = async (req, res) => {
+
+//   // const symbol = req.body;
+//   // console.log(symbol);
+//   //console.log(symbol.symbol);
+//   try {
+//     // console.log(req.userId);
+//       const FollowingList = await User.findOne({ userid: req.userId });
+//       // const WhomToFollow = await User.findOne({userid:symbol.personId});
+//       // const index = FollowingList.symbols.findIndex((sym) => sym === String(symbol.symbol));
+//     // console.log(FollowingList);
+
+//       // FollowingList.following.push(symbol.personId);
+//       // WhomToFollow.followers.push(symbol.userId);
+
+//       // const updatedFollowingList = await User.findByIdAndUpdate(FollowingList._id, FollowingList, { new: true });
+//       // const updatedWhomToFollow = await User.findByIdAndUpdate(WhomToFollow._id, WhomToFollow, { new: true });
+//       //console.log(updateWatchlist);
+//       // console.log(updateFollowerList);
+//       res.status(200).json(FollowingList.following);
+//   } catch (error) {
+//       console.log(error);
+//   }
+// }
+
+// export const deleteFollower = async (req, res) => {
+
+//   const symbol = req.body;
+//   // console.log(symbol);
+//   //console.log(symbol.symbol);
+//   try {
+//     // console.log(req.userId);
+//       const FollowingList = await User.findOne({ userid: symbol.userId });
+//       const WhomToFollow = await User.findOne({userid:symbol.personId});
+//       // const index = FollowingList.symbols.findIndex((sym) => sym === String(symbol.symbol));
+//     console.log(FollowingList);
+
+//       FollowingList.following.push(symbol.personId);
+//       WhomToFollow.followers.push(symbol.userId);
+
+//       const updatedFollowingList = await User.findByIdAndUpdate(FollowingList._id, FollowingList, { new: true });
+//       const updatedWhomToFollow = await User.findByIdAndUpdate(WhomToFollow._id, WhomToFollow, { new: true });
+//       //console.log(updateWatchlist);
+//       console.log(updateFollowerList);
+//       res.status(200).json(updatedFollowingList);
+//   } catch (error) {
+//       console.log(error);
+//   }
+// }
+
 export const getUser = async (req, res) => {
 
   try {
       const user = await User.findOne({ userid: req.params.userid });
+      // var data = [];
+      //console.log(watchlist);
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(404).json({ message: error.message, why: "why you do this to me?" });
+  }
+}
+
+export const getUsers = async (req, res) => {
+
+  try {
+      const user = await User.find({}).sort({userid:1});
       // var data = [];
       //console.log(watchlist);
       res.status(200).json(user);

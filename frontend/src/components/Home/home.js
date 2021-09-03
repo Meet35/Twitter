@@ -23,6 +23,10 @@ const Home = () => {
     const [list,setList] = useState([])
     const [userId,setUserId]=useState("");
     let history = useHistory();
+    const [followers,setFollowers]=useState();
+    const [following,setFollowing]=useState();
+    // const [user,setUser]=use
+
 
     function getTweet() {
         console.log(1);
@@ -39,10 +43,26 @@ const Home = () => {
             .catch(err => console.log(err));
     }
 
+    function getUser() {
+        console.log(1);
+        var userid1=JSON.parse(localStorage.getItem('profile')).result.userid;
+        console.log(userid1);
+        api.getUser(userid1)
+            .then(data => {
+                console.log(data.data);
+
+                // setUser(data.data);
+                setFollowers(data.data.followers.length);
+                setFollowing(data.data.following.length);
+            })
+            .catch(err => console.log(err));
+    }
+
     useEffect(() => {
         setLoading(true);
         getTweet();
         getList();
+        getUser();
     }, []);
 
     const useStyles = makeStyles({
@@ -86,10 +106,10 @@ const Home = () => {
     const classes = useStyles();
 
 
-    function handleClick(e) {
-        e.preventDefault();
-        history.push('/');
-    }
+    // function handleClick(e) {
+    //     e.preventDefault();
+    //     history.push('/');
+    // }
 
     const goToTweet = async (e) => {
         e.preventDefault();
@@ -101,11 +121,6 @@ const Home = () => {
             const { data } = await api.getUsers();
             console.log(data);
             setList(data);
-            // whynotcount = data;
-            // eslint-disable-next-line eqeqeq
-            // if (whynotcount.length == 5) {
-            //     setDisable(true);
-            // }
         } catch (error) {
             console.log(error);
         }
@@ -122,6 +137,16 @@ const Home = () => {
 
         
                 <Container maxWidth="lg">
+                    <Typography variant="h6">
+                                
+                                Followers {followers}
+                        </Typography>
+                
+                        <Typography variant="h6">
+                                
+                                Following {following}
+                        </Typography>
+                        <br/>
                     <form onSubmit={handleSubmit}>
                             <Grid container spacing={4} justify="center" alignItems="center">
                                 <Grid item xs>
@@ -142,12 +167,12 @@ const Home = () => {
                                 <Grid item xs>
                                     <Box display="flex" justifyContent="space-between">
                                         <Button variant="contained" type="submit" color="secondary" size="large" style={{ width: 260 }}>Visit Profile</Button>
-                                        {/* <Button variant="contained" onClick={showTriggers} color="secondary" size="large" style={{ width: 260 }}>Show all Triggers</Button> */}
+                                        <Button variant="contained" onClick={goToTweet} color="secondary" size="large" style={{ width: 260 }}>Tweet Here</Button>
                                     </Box>
                                 </Grid>
                             </Grid>
                         </form>
-                    <Button variant="contained" onClick={goToTweet} color="secondary" size="large" style={{ width: 260 }}>Tweet Here</Button>
+                    
                     {
                         (tweet.length > 0) ? tweet.map((row, index) =>
                         <Link to={{ pathname: `/Profile/${row.userid}`, state: { userid: row.userid, email: row.email } }} key={index} style={{ textDecoration: 'none' }} >

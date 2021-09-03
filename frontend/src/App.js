@@ -40,8 +40,8 @@ const App = () => {
             )
           )} />
           <Route exact path="/profile/:userid" render={() => (
-            localStorage.getItem('/profile/:userid') ? (
-              <View />
+            localStorage.getItem('profile') ? (
+              <Profile />
             ) : (
               <Redirect to="/auth" />
             )

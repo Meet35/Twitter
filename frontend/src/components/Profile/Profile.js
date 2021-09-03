@@ -36,6 +36,8 @@ const Profile = () => {
   const [followingList,setFollowingList]=useState([]);
   const [curUser,setCurUser]=useState("");
   const [dble,setDble]=useState(false);
+  const [followers,setFollowers]=useState();
+    const [following,setFollowing]=useState();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -94,6 +96,8 @@ const Profile = () => {
     .then((data) => {
         console.log(data.data);
         setUser(data.data);
+        setFollowers(data.data.followers.length);
+        setFollowing(data.data.following.length);
     })
     
 
@@ -219,18 +223,26 @@ const Profile = () => {
         <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
           <br />
           <hr /><br />
-          <Typography variant="h4">
+          <Typography variant="h6">
               {/* {
                   userEmail
               } */}
-              Hi{dble}
             User ID: {user.userid}
                 </Typography>
           <br /><hr />
-          Email Address : <Typography variant="h4">
+          Email Address : <Typography variant="h6">
             {user.email}
                 </Typography>
           <hr /><br />
+          <Typography variant="h6">
+                                
+                                Followers {followers}
+                        </Typography>
+                
+                        <Typography variant="h6">
+                                
+                                Following {following}
+                        </Typography>
           {!dble?<Button variant="contained" type="submit" color="secondary" size="large" style={{ width: 250 }}> Follow </Button>:
           <Button variant="contained" type="submit" color="secondary" size="large" style={{ width: 250 }}> UnFollow </Button>}
         </form>
